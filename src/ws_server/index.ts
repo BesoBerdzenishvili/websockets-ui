@@ -1,5 +1,5 @@
-import { BattleshipServer } from "./server";
-import { config } from "./config/config";
+import { config } from "./config/config.ts";
+import { BattleshipServer } from "./server.ts";
 
 export function startWebSocketServer(port?: number): BattleshipServer {
   const serverPort = port || config.wsPort;
@@ -7,7 +7,7 @@ export function startWebSocketServer(port?: number): BattleshipServer {
   return server;
 }
 
-export { BattleshipServer } from "./server";
+export { BattleshipServer } from "./server.ts";
 
-export * from "./models/types";
-export * from "./models/constants";
+export * from "./models/types.ts";
+export * from "./models/constants.ts";

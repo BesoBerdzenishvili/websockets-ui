@@ -1,6 +1,45 @@
-import { Database } from "../database";
-import { Message, Player, Game } from "../models/types";
-import WebSocket, { Server as WebSocketServer } from "ws";
+import { Database } from "../database/index.ts";
+import WebSocket, { WebSocketServer } from "ws";
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Ship {
+  position: Position;
+  direction: boolean;
+  length: number;
+  type: "small" | "medium" | "large" | "huge";
+  hits: Position[];
+}
+
+interface Player {
+  name: string;
+  password: string;
+  index: string;
+  wins: number;
+  ws?: WebSocket;
+}
+
+interface Game {
+  idGame: string;
+  players: {
+    [playerId: string]: {
+      playerIndex: string;
+      ships: Ship[];
+      shots: Position[];
+    };
+  };
+  currentTurn: string;
+  finished: boolean;
+}
+
+interface Message {
+  type: string;
+  data: any;
+  id: number;
+}
 
 export function sendToPlayer(ws: WebSocket, message: Message): void {
   if (ws.readyState === WebSocket.OPEN) {

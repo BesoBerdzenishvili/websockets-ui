@@ -1,12 +1,17 @@
-import { Database } from "../database/index";
-import { Message } from "../models/types";
-import { handleAddShips } from "./shipHandler";
-import { MESSAGE_TYPES } from "../models/constants";
-import { handleRegistration } from "./playerHandler";
-import { validateMessage } from "../utils/validation";
-import WebSocket, { Server as WebSocketServer } from "ws";
-import { handleAttack, handleRandomAttack } from "./gameHandler";
-import { handleCreateRoom, handleAddUserToRoom } from "./roomHandler";
+import { Database } from "../database/index.ts";
+import { handleAddShips } from "./shipHandler.ts";
+import { MESSAGE_TYPES } from "../models/constants.ts";
+import { handleRegistration } from "./playerHandler.ts";
+import { validateMessage } from "../utils/validation.ts";
+import WebSocket, { WebSocketServer } from "ws";
+import { handleAttack, handleRandomAttack } from "./gameHandler.ts";
+import { handleCreateRoom, handleAddUserToRoom } from "./roomHandler.ts";
+
+interface Message {
+  type: string;
+  data: any;
+  id: number;
+}
 
 export function handleMessage(
   ws: WebSocket,
@@ -51,12 +56,12 @@ export function handleMessage(
   }
 }
 
-export { handleRegistration } from "./playerHandler";
-export { handleCreateRoom, handleAddUserToRoom } from "./roomHandler";
-export { handleAddShips } from "./shipHandler";
+export { handleRegistration } from "./playerHandler.ts";
+export { handleCreateRoom, handleAddUserToRoom } from "./roomHandler.ts";
+export { handleAddShips } from "./shipHandler.ts";
 export {
   handleAttack,
   handleRandomAttack,
   processAttack,
   finishGame,
-} from "./gameHandler";
+} from "./gameHandler.ts";

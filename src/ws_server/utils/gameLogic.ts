@@ -1,5 +1,17 @@
-import { Ship, Position } from "../models/types";
-import { BOARD_SIZE } from "../models/constants";
+import { BOARD_SIZE } from "../models/constants.ts";
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Ship {
+  position: Position;
+  direction: boolean;
+  length: number;
+  type: "small" | "medium" | "large" | "huge";
+  hits: Position[];
+}
 
 export function getShipPositions(ship: Ship): Position[] {
   const positions: Position[] = [];

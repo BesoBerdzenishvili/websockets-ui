@@ -1,18 +1,44 @@
 import {
-  Message,
-  AddShipsData,
-  StartGameData,
-  TurnData,
-} from "../models/types";
-import {
   sendToPlayer,
   broadcastToGame,
   createMessage,
-} from "../utils/broadcast";
-import { Database } from "../database";
-import { MESSAGE_TYPES } from "../models/constants";
+} from "../utils/broadcast.ts";
+import { Database } from "../database/index.ts";
+import { MESSAGE_TYPES } from "../models/constants.ts";
 import WebSocket from "ws";
-import { validateShipPlacement } from "../utils/validation";
+import { validateShipPlacement } from "../utils/validation.ts";
+interface Message {
+  type: string;
+  data: any;
+  id: number;
+}
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Ship {
+  position: Position;
+  direction: boolean;
+  length: number;
+  type: "small" | "medium" | "large" | "huge";
+  hits: Position[];
+}
+
+interface AddShipsData {
+  gameId: string;
+  ships: Ship[];
+  indexPlayer: string;
+}
+
+interface StartGameData {
+  ships: Ship[];
+  currentPlayerIndex: string;
+}
+
+interface TurnData {
+  currentPlayer: string;
+}
 
 export function handleAddShips(
   ws: WebSocket,

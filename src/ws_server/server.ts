@@ -1,7 +1,7 @@
-import { config } from "./config/config";
-import { Database } from "./database/index";
+import { config } from "./config/config.ts";
+import { Database } from "./database/index.ts";
 import WebSocket, { WebSocketServer } from "ws";
-import { handleMessage } from "./handlers/index";
+import { handleMessage } from "./handlers/index.ts";
 
 export class BattleshipServer {
   private wss: WebSocketServer;

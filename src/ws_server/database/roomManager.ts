@@ -1,4 +1,8 @@
-import { Room } from "../models/types";
+interface Room {
+  roomId: string;
+  players: string[];
+  gameStarted: boolean;
+}
 
 export class RoomManager {
   private rooms: Map<string, Room> = new Map();

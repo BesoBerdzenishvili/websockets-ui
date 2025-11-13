@@ -1,9 +1,23 @@
-import { Database } from "../database";
-import { MESSAGE_TYPES } from "../models/constants";
-import { broadcastUpdateRoom } from "./playerHandler";
-import WebSocket, { Server as WebSocketServer } from "ws";
-import { sendToPlayer, createMessage } from "../utils/broadcast";
-import { Message, AddUserToRoomData, CreateGameData } from "../models/types";
+import { Database } from "../database/index.ts";
+import { MESSAGE_TYPES } from "../models/constants.ts";
+import { broadcastUpdateRoom } from "./playerHandler.ts";
+import WebSocket, { WebSocketServer } from "ws";
+import { sendToPlayer, createMessage } from "../utils/broadcast.ts";
+
+interface Message {
+  type: string;
+  data: any;
+  id: number;
+}
+
+interface AddUserToRoomData {
+  indexRoom: string;
+}
+
+interface CreateGameData {
+  idGame: string;
+  idPlayer: string;
+}
 
 export function handleCreateRoom(
   ws: WebSocket,

@@ -2,17 +2,34 @@ import {
   sendToPlayer,
   broadcastToAll,
   createMessage,
-} from "../utils/broadcast";
-import {
-  Message,
-  RegistrationData,
-  RegistrationResponse,
-  WinnerInfo,
-} from "../models/types";
-import { Database } from "../database";
-import { MESSAGE_TYPES } from "../models/constants";
-import { validateCredentials } from "../utils/validation";
-import WebSocket, { Server as WebSocketServer } from "ws";
+} from "../utils/broadcast.ts";
+import { Database } from "../database/index.ts";
+import { MESSAGE_TYPES } from "../models/constants.ts";
+import { validateCredentials } from "../utils/validation.ts";
+import WebSocket, { WebSocketServer } from "ws";
+
+interface WinnerInfo {
+  name: string;
+  wins: number;
+}
+
+interface RegistrationResponse {
+  name: string;
+  index: string;
+  error: boolean;
+  errorText: string;
+}
+
+interface Message {
+  type: string;
+  data: any;
+  id: number;
+}
+
+interface RegistrationData {
+  name: string;
+  password: string;
+}
 
 export function handleRegistration(
   ws: WebSocket,

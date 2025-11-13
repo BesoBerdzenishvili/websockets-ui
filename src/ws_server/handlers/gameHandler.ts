@@ -1,25 +1,50 @@
 import {
-  Message,
-  AttackData,
-  RandomAttackData,
-  Position,
-  AttackResponse,
-  FinishData,
-} from "../models/types";
-import {
   checkHit,
   getSurroundingCells,
   allShipsSunk,
   recordHit,
   getRandomUnusedPosition,
-} from "../utils/gameLogic";
-import { Database } from "../database";
-import { broadcastTurn } from "./shipHandler";
-import { broadcastUpdateWinners } from "./playerHandler";
-import WebSocket, { Server as WebSocketServer } from "ws";
-import { validateAttackPosition } from "../utils/validation";
-import { MESSAGE_TYPES, ATTACK_STATUS } from "../models/constants";
-import { broadcastToGame, createMessage } from "../utils/broadcast";
+} from "../utils/gameLogic.ts";
+import { Database } from "../database/index.ts";
+import { broadcastTurn } from "./shipHandler.ts";
+import { broadcastUpdateWinners } from "./playerHandler.ts";
+import WebSocket, { WebSocketServer } from "ws";
+import { validateAttackPosition } from "../utils/validation.ts";
+import { MESSAGE_TYPES, ATTACK_STATUS } from "../models/constants.ts";
+import { broadcastToGame, createMessage } from "../utils/broadcast.ts";
+
+interface AttackData {
+  gameId: string;
+  x: number;
+  y: number;
+  indexPlayer: string;
+}
+
+interface FinishData {
+  winPlayer: string;
+}
+
+interface RandomAttackData {
+  gameId: string;
+  indexPlayer: string;
+}
+
+interface Message {
+  type: string;
+  data: any;
+  id: number;
+}
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface AttackResponse {
+  position: Position;
+  currentPlayer: string;
+  status: "miss" | "shot" | "killed";
+}
 
 export function handleAttack(
   ws: WebSocket,

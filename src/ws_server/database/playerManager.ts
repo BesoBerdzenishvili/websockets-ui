@@ -1,5 +1,12 @@
 import WebSocket from "ws";
-import { Player } from "../models/types";
+
+interface Player {
+  name: string;
+  password: string;
+  index: string;
+  wins: number;
+  ws?: WebSocket;
+}
 
 export class PlayerManager {
   private players: Map<string, Player> = new Map();

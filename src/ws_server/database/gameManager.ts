@@ -1,4 +1,28 @@
-import { Game, Ship, Position } from "../models/types";
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Ship {
+  position: Position;
+  direction: boolean;
+  length: number;
+  type: "small" | "medium" | "large" | "huge";
+  hits: Position[];
+}
+
+interface Game {
+  idGame: string;
+  players: {
+    [playerId: string]: {
+      playerIndex: string;
+      ships: Ship[];
+      shots: Position[];
+    };
+  };
+  currentTurn: string;
+  finished: boolean;
+}
 
 export class GameManager {
   private games: Map<string, Game> = new Map();

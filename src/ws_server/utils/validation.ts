@@ -1,6 +1,18 @@
-import { getShipPositions } from "./gameLogic";
-import { Ship, Position } from "../models/types";
-import { BOARD_SIZE, SHIP_LENGTHS } from "../models/constants";
+import { getShipPositions } from "./gameLogic.ts";
+import { BOARD_SIZE, SHIP_LENGTHS } from "../models/constants.ts";
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Ship {
+  position: Position;
+  direction: boolean;
+  length: number;
+  type: "small" | "medium" | "large" | "huge";
+  hits: Position[];
+}
 
 export function validateShipPlacement(ships: Ship[]): boolean {
   if (!ships || ships.length === 0) {

@@ -52,7 +52,7 @@ export function handleAddShips(
     return;
   }
 
-  const data: AddShipsData = msg.data;
+  const data: AddShipsData = JSON.parse(msg.data as string);
   const game = db.games.getGame(data.gameId);
 
   if (!game) {
@@ -95,10 +95,15 @@ export function startGame(game: any, db: Database): void {
     if (player && player.ws) {
       const playerShips = game.players[playerIndex].ships;
 
-      const response: Message = createMessage(MESSAGE_TYPES.START_GAME, {
+      const shipData = JSON.stringify({
         ships: playerShips,
         currentPlayerIndex: playerIndex,
       } as StartGameData);
+
+      const response: Message = createMessage(
+        MESSAGE_TYPES.START_GAME,
+        shipData
+      );
 
       sendToPlayer(player.ws, response);
       console.log(
@@ -111,9 +116,10 @@ export function startGame(game: any, db: Database): void {
 }
 
 export function broadcastTurn(game: any, db: Database): void {
-  const turnMessage: Message = createMessage(MESSAGE_TYPES.TURN, {
+  const turnData = JSON.stringify({
     currentPlayer: game.currentTurn,
   } as TurnData);
+  const turnMessage: Message = createMessage(MESSAGE_TYPES.TURN, turnData);
 
   broadcastToGame(game, db, turnMessage);
 

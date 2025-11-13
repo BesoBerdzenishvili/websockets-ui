@@ -59,7 +59,7 @@ export function handleAttack(
     return;
   }
 
-  const data: AttackData = msg.data;
+  const data: AttackData = JSON.parse(msg.data as string);
   const position: Position = { x: data.x, y: data.y };
 
   processAttack(data.gameId, data.indexPlayer, position, db, wss);
@@ -78,7 +78,7 @@ export function handleRandomAttack(
     return;
   }
 
-  const data: RandomAttackData = msg.data;
+  const data: RandomAttackData = JSON.parse(msg.data as string);
   const game = db.games.getGame(data.gameId);
 
   if (!game) {
@@ -160,12 +160,15 @@ export function processAttack(
   } else {
     console.log(`Result: Attack at (${position.x}, ${position.y}) - MISS`);
   }
-
-  const attackMessage: Message = createMessage(MESSAGE_TYPES.ATTACK, {
+  const attackData = JSON.stringify({
     position,
     currentPlayer: attackerIndex,
     status,
   } as AttackResponse);
+  const attackMessage: Message = createMessage(
+    MESSAGE_TYPES.ATTACK,
+    attackData
+  );
 
   broadcastToGame(game, db, attackMessage);
 
@@ -173,11 +176,15 @@ export function processAttack(
     const surroundingCells = getSurroundingCells(hitResult.ship);
 
     surroundingCells.forEach((cell) => {
-      const missMessage: Message = createMessage(MESSAGE_TYPES.ATTACK, {
+      const cellsData = JSON.stringify({
         position: cell,
         currentPlayer: attackerIndex,
         status: ATTACK_STATUS.MISS,
       } as AttackResponse);
+      const missMessage: Message = createMessage(
+        MESSAGE_TYPES.ATTACK,
+        cellsData
+      );
 
       broadcastToGame(game, db, missMessage);
     });
@@ -211,10 +218,13 @@ export function finishGame(
   console.log(
     `Result: Game ${game.idGame} finished - Winner: ${winner?.name} (${winnerIndex})`
   );
-
-  const finishMessage: Message = createMessage(MESSAGE_TYPES.FINISH, {
+  const winnerData = JSON.stringify({
     winPlayer: winnerIndex,
   } as FinishData);
+  const finishMessage: Message = createMessage(
+    MESSAGE_TYPES.FINISH,
+    winnerData
+  );
 
   broadcastToGame(game, db, finishMessage);
 

@@ -1,6 +1,6 @@
-import { PlayerManager } from "./playerManager";
 import { RoomManager } from "./roomManager";
 import { GameManager } from "./gameManager";
+import { PlayerManager } from "./playerManager";
 
 export class Database {
   public players: PlayerManager;

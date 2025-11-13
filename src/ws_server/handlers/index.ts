@@ -1,4 +1,4 @@
-import { Database } from "../database";
+import { Database } from "../database/index";
 import { Message } from "../models/types";
 import { handleAddShips } from "./shipHandler";
 import { MESSAGE_TYPES } from "../models/constants";
@@ -35,7 +35,7 @@ export function handleMessage(
       break;
 
     case MESSAGE_TYPES.ADD_SHIPS:
-      handleAddShips(ws, msg, db, wss);
+      handleAddShips(ws, msg, db);
       break;
 
     case MESSAGE_TYPES.ATTACK:

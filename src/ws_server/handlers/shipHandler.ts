@@ -11,14 +11,13 @@ import {
 } from "../utils/broadcast";
 import { Database } from "../database";
 import { MESSAGE_TYPES } from "../models/constants";
-import WebSocket, { Server as WebSocketServer } from "ws";
+import WebSocket from "ws";
 import { validateShipPlacement } from "../utils/validation";
 
 export function handleAddShips(
   ws: WebSocket,
   msg: Message,
-  db: Database,
-  wss: WebSocketServer
+  db: Database
 ): void {
   const player = db.players.getPlayerByWs(ws);
 

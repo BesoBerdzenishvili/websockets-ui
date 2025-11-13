@@ -37,7 +37,7 @@ export function handleRegistration(
   db: Database,
   wss: WebSocketServer
 ): void {
-  const data: RegistrationData = msg.data;
+  const data: RegistrationData = JSON.parse(msg.data as string);
 
   if (!validateCredentials(data.name, data.password)) {
     const response: Message = {

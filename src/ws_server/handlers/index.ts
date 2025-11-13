@@ -27,7 +27,7 @@ export function handleMessage(
       break;
 
     case MESSAGE_TYPES.CREATE_ROOM:
-      handleCreateRoom(ws, msg, db, wss);
+      handleCreateRoom(ws, db, wss);
       break;
 
     case MESSAGE_TYPES.ADD_USER_TO_ROOM:

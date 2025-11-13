@@ -7,7 +7,6 @@ import { Message, AddUserToRoomData, CreateGameData } from "../models/types";
 
 export function handleCreateRoom(
   ws: WebSocket,
-  msg: Message,
   db: Database,
   wss: WebSocketServer
 ): void {

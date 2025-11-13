@@ -57,14 +57,16 @@ export function handleRegistration(
 
   const result = db.players.registerPlayer(data.name, data.password, ws);
 
+  const userData = JSON.stringify({
+    name: result.player.name,
+    index: result.player.index,
+    error: result.error,
+    errorText: result.errorText,
+  } as RegistrationResponse);
+
   const response: Message = {
     type: MESSAGE_TYPES.REG,
-    data: {
-      name: result.player.name,
-      index: result.player.index,
-      error: result.error,
-      errorText: result.errorText,
-    } as RegistrationResponse,
+    data: userData,
     id: 0,
   };
 

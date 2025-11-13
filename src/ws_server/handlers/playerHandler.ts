@@ -92,7 +92,10 @@ export function broadcastUpdateWinners(
 ): void {
   const winners: WinnerInfo[] = db.players.getLeaderboard();
 
-  const message: Message = createMessage(MESSAGE_TYPES.UPDATE_WINNERS, winners);
+  const message: Message = createMessage(
+    MESSAGE_TYPES.UPDATE_WINNERS,
+    JSON.stringify(winners)
+  );
 
   broadcastToAll(wss, message);
   console.log("Result: Winners table updated and broadcast");
@@ -111,7 +114,10 @@ export function broadcastUpdateRoom(db: Database, wss: WebSocketServer): void {
       .filter(Boolean),
   }));
 
-  const message: Message = createMessage(MESSAGE_TYPES.UPDATE_ROOM, roomData);
+  const message: Message = createMessage(
+    MESSAGE_TYPES.UPDATE_ROOM,
+    JSON.stringify(roomData)
+  );
 
   broadcastToAll(wss, message);
   console.log("Result: Room list updated and broadcast");

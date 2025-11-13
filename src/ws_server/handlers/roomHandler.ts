@@ -53,7 +53,7 @@ export function handleAddUserToRoom(
     return;
   }
 
-  const data: AddUserToRoomData = msg.data;
+  const data: AddUserToRoomData = JSON.parse(msg.data as string);
   const room = db.rooms.addPlayerToRoom(data.indexRoom, player.index);
 
   if (!room) {
@@ -76,10 +76,14 @@ export function handleAddUserToRoom(
     room.players.forEach((playerIndex) => {
       const p = db.players.getPlayerByIndex(playerIndex);
       if (p && p.ws) {
-        const response: Message = createMessage(MESSAGE_TYPES.CREATE_GAME, {
+        const msgData = JSON.stringify({
           idGame: game.idGame,
           idPlayer: playerIndex,
         } as CreateGameData);
+        const response: Message = createMessage(
+          MESSAGE_TYPES.CREATE_GAME,
+          msgData
+        );
 
         sendToPlayer(p.ws, response);
         console.log(

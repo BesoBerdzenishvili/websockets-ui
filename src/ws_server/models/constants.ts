@@ -5,4 +5,3 @@ export const SHIP_TYPES = {
   large: 3,
   huge: 4,
 };
-export const WS_PORT = 3000;
